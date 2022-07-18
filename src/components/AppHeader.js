@@ -1,0 +1,99 @@
+import React from 'react'
+import { NavLink, Link } from 'react-router-dom'
+// import React from 'react'
+import { CButton } from '@coreui/react'
+import { useSelector, useDispatch } from 'react-redux'
+import {
+  CContainer,
+  CHeader,
+  // CHeaderBrand,
+  CHeaderDivider,
+  CHeaderNav,
+  CHeaderToggler,
+  CNavLink,
+  CNavItem,
+} from '@coreui/react'
+import CIcon from '@coreui/icons-react'
+import { cilBell, cilEnvelopeOpen, cilList, cilMenu } from '@coreui/icons'
+
+import { AppBreadcrumb } from './index'
+import { AppHeaderDropdown } from './header/index'
+import connectToMetaMask from '../index.js'
+
+const AppHeader = () => {
+  const dispatch = useDispatch()
+  const sidebarShow = useSelector((state) => state.sidebarShow)
+
+  return (
+    <CHeader position="sticky" className="mb-4">
+      <CContainer fluid>
+        <CHeaderToggler
+          className="ps-1"
+          onClick={() => dispatch({ type: 'set', sidebarShow: !sidebarShow })}
+        >
+          <CIcon icon={cilMenu} size="lg" />
+        </CHeaderToggler>
+        {/*<CHeaderBrand className="mx-auto d-md-none" to="/">
+          <CIcon icon={logo} height={48} alt="Logo" />
+        </CHeaderBrand>
+*/}
+        <CHeaderNav className="d-none d-md-flex me-auto">
+          <CNavItem>
+            <CNavLink to="/dashboard" component={NavLink}>
+              Public
+            </CNavLink>
+          </CNavItem>
+          <CNavItem>
+            <CNavLink href="#">Contracts</CNavLink>
+          </CNavItem>
+          <CNavItem>
+            <CNavLink href="#">More</CNavLink>
+          </CNavItem>
+        </CHeaderNav>
+        <CHeaderNav>
+          <CNavItem>
+            <CNavLink href="#">
+              <CIcon icon={cilBell} size="lg" />
+            </CNavLink>
+          </CNavItem>
+          <CNavItem>
+            <CNavLink href="#">
+              <CIcon icon={cilList} size="lg" />
+            </CNavLink>
+          </CNavItem>
+          <CNavItem>
+            <CNavLink href="#">
+              <CIcon icon={cilEnvelopeOpen} size="lg" />
+            </CNavLink>
+          </CNavItem>
+          <CNavItem>
+            <Link to="/register">
+              <CButton
+                to="/register"
+                color="secondary"
+                className="mt-0"
+                font="2px"
+                active
+                tabIndex={-1}
+              >
+                Register
+              </CButton>
+            </Link>
+          </CNavItem>
+          <CNavItem>
+            <CButton onClick={connectToMetaMask}>Account</CButton>
+          </CNavItem>
+        </CHeaderNav>
+        <CHeaderNav className="ms-3">
+          <AppHeaderDropdown />
+        </CHeaderNav>
+      </CContainer>
+      <CHeaderDivider />
+      <CContainer fluid>
+        <AppBreadcrumb />
+      </CContainer>
+    </CHeader>
+  )
+}
+
+export default AppHeader
